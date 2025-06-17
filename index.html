@@ -13,37 +13,29 @@
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
         }
+        html { scroll-behavior: smooth; }
+        body { background-color: #f8fafc; overflow-x: hidden; }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: #f8fafc;
-            overflow-x: hidden;
-        }
-
-        .floating {
-            animation: floating 3s ease-in-out infinite;
-        }
-
-        .floating-delay-1 {
-            animation-delay: 0.5s;
-        }
-
-        .floating-delay-2 {
-            animation-delay: 1s;
-        }
-
-        .floating-delay-3 {
-            animation-delay: 1.5s;
-        }
-
+        /* Floating Animation */
+        .floating { animation: floating 3s ease-in-out infinite; }
+        .floating-delay-1 { animation-delay: 0.5s; }
+        .floating-delay-2 { animation-delay: 1s; }
+        .floating-delay-3 { animation-delay: 1.5s; }
         @keyframes floating {
             0% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-15px) rotate(5deg); }
             100% { transform: translateY(0px) rotate(0deg); }
         }
+
+        /* Before & After Slider CSS */
+        .before-after-container { position: relative; width: 100%; overflow: hidden; }
+        .before-image { position: absolute; top: 0; left: 0; width: 50%; height: 100%; overflow: hidden; }
+        .after-image { position: absolute; top: 0; right: 0; width: 50%; height: 100%; overflow: hidden; }
+        .before-image img, .after-image img { position: absolute; top: 0; height: 100%; width: 100%; object-fit: cover; }
+        .before-image img { clip-path: inset(0 0 0 0); } /* This is what the JS will modify */
+        .before-after-slider { position: absolute; top: 0; bottom: 0; left: 50%; width: 4px; background: #3b82f6; cursor: ew-resize; z-index: 10; transform: translateX(-50%); }
+        .before-after-slider::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; background: #3b82f6; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 10px rgba(0,0,0,0.3); }
+        .before-after-slider::after { content: '⟷'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 20px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -51,31 +43,23 @@
     <nav class="fixed w-full bg-white shadow-md z-40 transition-all duration-300" id="navbar">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center">
-                <svg class="w-10 h-10 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8 S16.41,20,12,20z M16.59,7.58L10,14.17l-2.59-2.58L6,13l4,4l8-8L16.59,7.58z"></path>
-                </svg>
+                <svg class="w-10 h-10 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8 S16.41,20,12,20z M16.59,7.58L10,14.17l-2.59-2.58L6,13l4,4l8-8L16.59,7.58z"></path></svg>
                 <span class="ml-2 text-xl font-bold text-gray-800">DentalZone</span>
             </div>
             <div class="hidden md:flex space-x-8">
                 <a href="#hero" class="text-gray-600 hover:text-blue-600 transition-colors" data-translate="navHome">Kryefaqja</a>
-                <a href="#about" class="text-gray-600 hover:text-blue-600 transition-colors" data-translate="navAbout">Rreth Nesh</a>
                 <a href="#services" class="text-gray-600 hover:text-blue-600 transition-colors" data-translate="navServices">Shërbimet</a>
                 <a href="#before-after" class="text-gray-600 hover:text-blue-600 transition-colors" data-translate="navBeforeAfter">Para dhe Pas</a>
                 <a href="#testimonials" class="text-gray-600 hover:text-blue-600 transition-colors" data-translate="navTestimonials">Dëshmitë</a>
                 <a href="#contact" class="text-gray-600 hover:text-blue-600 transition-colors" data-translate="navContact">Kontakti</a>
             </div>
             <div class="md:hidden">
-                <button id="menu-toggle" class="focus:outline-none">
-                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
+                <button id="menu-toggle" class="focus:outline-none"><svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
             </div>
         </div>
         <div id="mobile-menu" class="hidden md:hidden bg-white shadow-md">
             <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
                 <a href="#hero" class="text-gray-600 hover:text-blue-600 transition-colors" data-translate="navHome">Kryefaqja</a>
-                <a href="#about" class="text-gray-600 hover:text-blue-600 transition-colors" data-translate="navAbout">Rreth Nesh</a>
                 <a href="#services" class="text-gray-600 hover:text-blue-600 transition-colors" data-translate="navServices">Shërbimet</a>
                 <a href="#before-after" class="text-gray-600 hover:text-blue-600 transition-colors" data-translate="navBeforeAfter">Para dhe Pas</a>
                 <a href="#testimonials" class="text-gray-600 hover:text-blue-600 transition-colors" data-translate="navTestimonials">Dëshmitë</a>
@@ -86,14 +70,11 @@
     
     <!-- Hero Section -->
     <section id="hero" class="relative min-h-screen flex items-center bg-gradient-to-br from-blue-50 to-blue-100 overflow-hidden">
-        <!-- Floating Dental Icons - SCOPED TO HERO SECTION -->
         <div class="absolute inset-0 pointer-events-none z-10">
             <svg class="absolute top-20 left-10 w-12 h-12 text-blue-200 floating" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8 S16.41,20,12,20z M16.59,7.58L10,14.17l-2.59-2.58L6,13l4,4l8-8L16.59,7.58z"></path></svg>
             <svg class="absolute top-40 right-20 w-8 h-8 text-blue-300 floating floating-delay-1" fill="currentColor" viewBox="0 0 24 24"><path d="M19,4H5C3.9,4,3,4.9,3,6v12c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V6C21,4.9,20.1,4,19,4z M19,18H5V8h14V18z"></path><path d="M12,9c-1.66,0-3,1.34-3,3s1.34,3,3,3s3-1.34,3-3S13.66,9,12,9z"></path></svg>
-            <svg class="absolute top-80 left-20 w-10 h-10 text-blue-200 floating floating-delay-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8 S16.41,20,12,20z"></path><path d="M12,6c-3.31,0-6,2.69-6,6s2.69,6,6,6s6-2.69,6-6S15.31,6,12,6z M12,16c-2.21,0-4-1.79-4-4s1.79-4,4-4s4,1.79,4,4 S14.21,16,12,16z"></path></svg>
             <svg class="absolute bottom-40 right-10 w-14 h-14 text-blue-100 floating floating-delay-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8 S16.41,20,12,20z"></path><path d="M12,6c-3.31,0-6,2.69-6,6s2.69,6,6,6s6-2.69,6-6S15.31,6,12,6z M12,16c-2.21,0-4-1.79-4-4s1.79-4,4-4s4,1.79,4,4 S14.21,16,12,16z"></path></svg>
         </div>
-
         <div class="container mx-auto px-4 py-32 md:py-0 z-20">
             <div class="flex flex-col md:flex-row items-center">
                 <div class="md:w-1/2 mb-10 md:mb-0">
@@ -105,9 +86,7 @@
                         <a href="#services" class="bg-white hover:bg-gray-100 text-blue-600 font-medium py-3 px-6 rounded-lg border border-blue-600 transition-colors duration-300 text-center" data-translate="heroBtnServices">Shërbimet Tona</a>
                     </div>
                 </div>
-                <div class="md:w-1/2 relative">
-                    <img src="https://images.unsplash.com/photo-1629904853716-f0bc54eea481?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" alt="Dentist working on a patient" class="rounded-full shadow-2xl">
-                </div>
+                <div class="md:w-1/2 relative"><img src="https://images.unsplash.com/photo-1629904853716-f0bc54eea481?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" alt="Dentist working on a patient" class="rounded-full shadow-2xl"></div>
             </div>
         </div>
     </section>
@@ -121,30 +100,58 @@
                 <p class="text-gray-600 max-w-2xl mx-auto" data-translate="servicesDescription">Ne ofrojmë një gamë të gjerë shërbimesh dentare për të përmbushur nevojat e të gjithë pacientëve tanë.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Service 1 -->
-                <div class="bg-white rounded-lg shadow-lg p-8 transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-2xl">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4" data-translate="service1Title">Kujdesi Dentar i Përgjithshëm</h3>
-                    <p class="text-gray-600" data-translate="service1Desc">Pastrim, kontroll dhe parandalim i çrregullimeve.</p>
+                <div class="bg-white rounded-lg shadow-lg p-8 transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-2xl"><h3 class="text-xl font-bold text-gray-800 mb-4" data-translate="service1Title">Kujdesi Dentar i Përgjithshëm</h3><p class="text-gray-600" data-translate="service1Desc">Pastrim, kontroll dhe parandalim i çrregullimeve.</p></div>
+                <div class="bg-white rounded-lg shadow-lg p-8 transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-2xl"><h3 class="text-xl font-bold text-gray-800 mb-4" data-translate="service2Title">Implantet Dentare</h3><p class="text-gray-600" data-translate="service2Desc">Zëvendëso dhëmbët që mungojnë me implantet natyrore!</p></div>
+                <div class="bg-white rounded-lg shadow-lg p-8 transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-2xl"><h3 class="text-xl font-bold text-gray-800 mb-4" data-translate="service3Title">Kurora dhe Ura Dentare</h3><p class="text-gray-600" data-translate="service3Desc">Forco dhëmbët e dobët ose plotëso hapësirat për një buzëqeshje perfekte!</p></div>
+                <div class="bg-white rounded-lg shadow-lg p-8 transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-2xl"><h3 class="text-xl font-bold text-gray-800 mb-4" data-translate="service4Title">Zbardhje Dhëmbësh</h3><p class="text-gray-600" data-translate="service4Desc">Një buzëqeshje më e ndritur në vetëm një vizitë!</p></div>
+                <div class="bg-white rounded-lg shadow-lg p-8 transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-2xl"><h3 class="text-xl font-bold text-gray-800 mb-4" data-translate="service5Title">Ndihmë e Shpejtë Dentare</h3><p class="text-gray-600" data-translate="service5Desc">Dhëmb i thyer apo dhimbje? Na kontakto menjëherë!</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Before and After Section -->
+    <section id="before-after" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4" data-translate="beforeAfterTitle">Para dhe Pas</h2>
+                <div class="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto" data-translate="beforeAfterDescription">Shikoni transformimet e mahnitshme të buzëqeshjeve që kemi realizuar për pacientët tanë.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="before-after-container h-96 rounded-lg overflow-hidden shadow-lg bg-gray-200">
+                    <img src="https://i.imgur.com/kY1yHqX.jpg" alt="Before teeth whitening" class="before-image">
+                    <img src="https://i.imgur.com/R3V3YQJ.jpg" alt="After teeth whitening" class="after-image">
+                    <div class="before-after-slider" id="slider1"></div>
                 </div>
-                <!-- Service 2 -->
-                <div class="bg-white rounded-lg shadow-lg p-8 transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-2xl">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4" data-translate="service2Title">Implantet Dentare</h3>
-                    <p class="text-gray-600" data-translate="service2Desc">Zëvendëso dhëmbët që mungojnë me implantet natyrore!</p>
+                <div class="before-after-container h-96 rounded-lg overflow-hidden shadow-lg bg-gray-200">
+                    <img src="https://i.imgur.com/jG9Z2aF.jpg" alt="Before dental work" class="before-image">
+                    <img src="https://i.imgur.com/8N0Y3tW.jpg" alt="After dental work" class="after-image">
+                    <div class="before-after-slider" id="slider2"></div>
                 </div>
-                <!-- Service 3 -->
-                <div class="bg-white rounded-lg shadow-lg p-8 transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-2xl">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4" data-translate="service3Title">Kurora dhe Ura Dentare</h3>
-                    <p class="text-gray-600" data-translate="service3Desc">Forco dhëmbët e dobët ose plotëso hapësirat për një buzëqeshje perfekte!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 bg-blue-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4" data-translate="testimonialsTitle">Dëshmitë e Pacientëve</h2>
+                <div class="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto" data-translate="testimonialsDescription">Dëgjoni çfarë thonë pacientët tanë për përvojën e tyre në klinikën tonë.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg shadow-lg p-8 transition-transform hover:scale-105 duration-300">
+                    <p class="text-gray-600 italic mb-4" data-translate="testimonial1Quote">"Kam qenë gjithmonë e frikësuar nga dentisti, por ekipi në DentalZone më bëri të ndihem shumë e qetë. Trajtimi ishte pa dhimbje dhe rezultatet janë të mrekullueshme!"</p>
+                    <p class="font-bold text-right text-gray-800">- Arta Krasniqi</p>
                 </div>
-                <!-- Service 4 -->
-                <div class="bg-white rounded-lg shadow-lg p-8 transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-2xl">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4" data-translate="service4Title">Zbardhje Dhëmbësh</h3>
-                    <p class="text-gray-600" data-translate="service4Desc">Një buzëqeshje më e ndritur në vetëm një vizitë!</p>
+                <div class="bg-white rounded-lg shadow-lg p-8 transition-transform hover:scale-105 duration-300">
+                    <p class="text-gray-600 italic mb-4" data-translate="testimonial2Quote">"Implantet dentare që mora në DentalZone kanë ndryshuar jetën time. Tani mund të ha dhe të buzëqesh me besim. Faleminderit ekipit të mrekullueshëm!"</p>
+                    <p class="font-bold text-right text-gray-800">- Besnik Hoxha</p>
                 </div>
-                <!-- Service 5 -->
-                <div class="bg-white rounded-lg shadow-lg p-8 transition-all duration-300 hover:transform hover:-translate-y-2 hover:shadow-2xl">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4" data-translate="service5Title">Ndihmë e Shpejtë Dentare</h3>
-                    <p class="text-gray-600" data-translate="service5Desc">Dhëmb i thyer apo dhimbje? Na kontakto menjëherë!</p>
+                <div class="bg-white rounded-lg shadow-lg p-8 transition-transform hover:scale-105 duration-300">
+                    <p class="text-gray-600 italic mb-4" data-translate="testimonial3Quote">"Procedura e zbardhimit të dhëmbëve ishte e shpejtë dhe efektive. Dhëmbët e mi janë disa nuanca më të bardhë dhe ndihem shumë më e sigurt kur buzëqesh."</p>
+                    <p class="font-bold text-right text-gray-800">- Vjosa Berisha</p>
                 </div>
             </div>
         </div>
@@ -158,27 +165,15 @@
                 <div class="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
                 <p class="text-gray-600 max-w-2xl mx-auto" data-translate="contactDescription">Jemi këtu për t'iu përgjigjur pyetjeve tuaja dhe për t'ju ndihmuar të caktoni një takim.</p>
             </div>
-            <div class="flex flex-col md:flex-row">
-                <div class="md:w-1/2 mb-10 md:mb-0 md:pr-10">
+            <div class="flex flex-col md:flex-row-reverse gap-10">
+                <div class="md:w-1/2">
                     <form class="bg-blue-50 rounded-lg shadow-lg p-8">
                         <h3 class="text-2xl font-bold text-gray-800 mb-6" data-translate="formTitle">Na Dërgoni një Mesazh</h3>
-                        <div class="mb-6">
-                            <label for="name" class="block text-gray-700 font-medium mb-2" data-translate="formName">Emri i Plotë</label>
-                            <input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" data-translate-placeholder="formNamePlaceholder" placeholder="Emri juaj i plotë">
-                        </div>
-                        <div class="mb-6">
-                            <label for="email" class="block text-gray-700 font-medium mb-2" data-translate="formEmail">Email</label>
-                            <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" data-translate-placeholder="formEmailPlaceholder" placeholder="adresa@juaj.com">
-                        </div>
-                        <div class="mb-6">
-                            <label for="phone" class="block text-gray-700 font-medium mb-2" data-translate="formPhone">Numri i Telefonit</label>
-                            <input type="tel" id="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" data-translate-placeholder="formPhonePlaceholder" placeholder="+383 49 889 958">
-                        </div>
-                        <div class="mb-6">
-                            <label for="message" class="block text-gray-700 font-medium mb-2" data-translate="formMessage">Mesazhi</label>
-                            <textarea id="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent" data-translate-placeholder="formMessagePlaceholder" placeholder="Shkruani mesazhin tuaj këtu..."></textarea>
-                        </div>
-                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-300" data-translate="formButton">Dërgo Mesazhin</button>
+                        <div class="mb-6"><label for="name" class="block text-gray-700 font-medium mb-2" data-translate="formName">Emri i Plotë</label><input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" data-translate-placeholder="formNamePlaceholder" placeholder="Emri juaj i plotë"></div>
+                        <div class="mb-6"><label for="email" class="block text-gray-700 font-medium mb-2" data-translate="formEmail">Email</label><input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" data-translate-placeholder="formEmailPlaceholder" placeholder="adresa@juaj.com"></div>
+                        <div class="mb-6"><label for="phone" class="block text-gray-700 font-medium mb-2" data-translate="formPhone">Numri i Telefonit</label><input type="tel" id="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" data-translate-placeholder="formPhonePlaceholder" placeholder="+383 49 889 958"></div>
+                        <div class="mb-6"><label for="message" class="block text-gray-700 font-medium mb-2" data-translate="formMessage">Mesazhi</label><textarea id="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600" data-translate-placeholder="formMessagePlaceholder" placeholder="Shkruani mesazhin tuaj këtu..."></textarea></div>
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors" data-translate="formButton">Dërgo Mesazhin</button>
                     </form>
                 </div>
                 <div class="md:w-1/2">
@@ -199,15 +194,7 @@
     <section id="map" class="py-10 bg-blue-50">
         <div class="container mx-auto px-4">
             <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2934.331201980362!2d21.151731676646733!3d42.6548761159959!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13549ee4ac5d506d%3A0x28f72affc3336339!2sBregu%20i%20Diellit!5e0!3m2!1sen!2s!4v1683302098679!5m2!1sen!2s" 
-                    width="100%" 
-                    height="450" 
-                    style="border:0;" 
-                    allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2934.331201980362!2d21.151731676646733!3d42.6548761159959!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13549ee4ac5d506d%3A0x28f72affc3336339!2sBregu%20i%20Diellit!5e0!3m2!1sen!2s!4v1683302098679!5m2!1sen!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </section>
@@ -220,196 +207,91 @@
     </footer>
 
     <!-- Floating Toggles -->
-    <!-- Language Toggle -->
     <div class="fixed bottom-5 left-5 z-50 flex flex-col-reverse items-center space-y-2 space-y-reverse">
         <div id="language-options" class="hidden flex flex-col items-center space-y-2 mb-2">
-            <!-- English -->
-            <button onclick="changeLanguage('en')" class="bg-white p-0 rounded-full shadow-lg w-12 h-12 flex items-center justify-center overflow-hidden">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" width="60" height="30"><path fill="#012169" d="M0 0h60v30H0z"/><path fill="#FFF" d="M0 0l60 30m0-30L0 30"/><path fill="none" stroke="#FFF" stroke-width="6" d="M0 0l60 30m0-30L0 30"/><path fill="none" stroke="#C8102E" stroke-width="2" d="M0 0l60 30m0-30L0 30"/><path fill="none" stroke="#FFF" stroke-width="10" d="M30 0v30M0 15h60"/><path fill="none" stroke="#C8102E" stroke-width="6" d="M30 0v30M0 15h60"/></svg>
-            </button>
-            <!-- Albanian -->
-            <button onclick="changeLanguage('sq')" class="bg-white p-0 rounded-full shadow-lg w-12 h-12 flex items-center justify-center overflow-hidden">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="60" height="40"><rect fill="#E41E20" height="600" width="900"/><g transform="translate(450 300) scale(1.4)"><g transform="translate(0 40)" fill="#000"><path d="M-105-25l41 12-16-39 32 32-39-16 12 41L-105-25z"/><path d="M105-25l-41 12 16-39-32 32 39-16-12 41L105-25z"/><path d="M-125-105c-5 18-21 52-25 60-4 8 13 15 13 15s-10-18-5-30c5-12 17-25 17-25z"/><path d="M125-105c5 18 21 52 25 60 4 8-13 15-13 15s10-18 5-30c-5-12-17-25-17-25z"/><g transform="scale(1 -1)"><path d="M-125-105c-5 18-21 52-25 60-4 8 13 15 13 15s-10-18-5-30c5-12 17-25 17-25z"/><path d="M125-105c5 18 21 52 25 60 4 8-13 15-13 15s10-18 5-30c-5-12-17-25-17-25z"/></g></g></g></svg>
-            </button>
+            <button onclick="changeLanguage('en')" class="bg-white p-0 rounded-full shadow-lg w-12 h-12 flex items-center justify-center overflow-hidden transition-transform hover:scale-110"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" width="60" height="30"><path fill="#012169" d="M0 0h60v30H0z"/><path fill="#FFF" d="M0 0l60 30m0-30L0 30"/><path fill="none" stroke="#FFF" stroke-width="6" d="M0 0l60 30m0-30L0 30"/><path fill="none" stroke="#C8102E" stroke-width="2" d="M0 0l60 30m0-30L0 30"/><path fill="none" stroke="#FFF" stroke-width="10" d="M30 0v30M0 15h60"/><path fill="none" stroke="#C8102E" stroke-width="6" d="M30 0v30M0 15h60"/></svg></button>
+            <button onclick="changeLanguage('sq')" class="bg-white p-0 rounded-full shadow-lg w-12 h-12 flex items-center justify-center overflow-hidden transition-transform hover:scale-110"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="60" height="40"><rect fill="#E41E20" height="600" width="900"/><g transform="translate(450 300) scale(1.4)"><g transform="translate(0 40)" fill="#000"><path d="M-105-25l41 12-16-39 32 32-39-16 12 41L-105-25z"/><path d="M105-25l-41 12 16-39-32 32 39-16-12 41L105-25z"/><path d="M-125-105c-5 18-21 52-25 60-4 8 13 15 13 15s-10-18-5-30c5-12 17-25 17-25z"/><path d="M125-105c5 18 21 52 25 60 4 8-13 15-13 15s10-18 5-30c-5-12-17-25-17-25z"/><g transform="scale(1 -1)"><path d="M-125-105c-5 18-21 52-25 60-4 8 13 15 13 15s-10-18-5-30c5-12 17-25 17-25z"/><path d="M125-105c5 18 21 52 25 60 4 8-13 15-13 15s10-18 5-30c-5-12-17-25-17-25z"/></g></g></g></svg></button>
         </div>
-        <button id="language-toggle" class="bg-blue-600 text-white rounded-full p-4 shadow-lg hover:bg-blue-700 transition-transform hover:scale-110">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4 13l4-4M19 21V5a2 2 0 00-2-2H5a2 2 0 00-2 2v16l4-4 4 4 4-4 4 4z"></path></svg>
-        </button>
+        <button id="language-toggle" class="bg-blue-600 text-white rounded-full p-4 shadow-lg hover:bg-blue-700 transition-transform hover:scale-110"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m4 13l4-4M19 21V5a2 2 0 00-2-2H5a2 2 0 00-2 2v16l4-4 4 4 4-4 4 4z"></path></svg></button>
     </div>
-
-    <!-- Socials Toggle -->
     <div class="fixed bottom-5 right-5 z-50 flex flex-col-reverse items-center space-y-2 space-y-reverse">
         <div id="social-options" class="hidden flex flex-col items-center space-y-2 mb-2">
-            <!-- WhatsApp -->
-            <a href="https://wa.me/38349889958" target="_blank" class="bg-green-500 text-white rounded-full p-3 shadow-lg hover:bg-green-600 transition-transform hover:scale-110">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M16.75 13.96c.25.13.42.2.46.28a.48.48 0 01.04.3c-.12.48-.68.9-1.12.96-.28.04-.48.03-.68-.02s-.58-.2-1.03-.38c-1.1-.48-2.2-1.34-2.94-2.4a5.33 5.33 0 01-1-1.3c-.2-.35-.38-.7-.38-1.03a1.4 1.4 0 01.48-1.02c.16-.16.35-.2.48-.2a.6.6 0 01.43.28l.2.28.6 1.35.3 1.3c.02.04.04.1.04.16a.4.4 0 010 .2c-.02.08-.04.13-.08.18-.08.1-.18.2-.3.3a.62.62 0 01-.22.1c-.08.04-.15.1-.15.2a1.35 1.35 0 00.5 1.12c.5.53 1.15.93 1.83 1.1a1.2 1.2 0 00.35.03c.1-.03.25-.13.3-.25.04-.1.04-.2.04-.25l.02-.13c0-.02 0-.04-.02-.06a.7.7 0 00-.08-.13.3.3 0 01-.06-.2.43.43 0 01.13-.3c.1-.08.2-.13.25-.13h.1a.4.4 0 01.28.13c.1.08.18.18.25.28.1.13.18.25.25.35.08.13.15.23.18.3.02.03.04.06.04.08a.27.27 0 01.02.13c0 .06-.02.1-.04.16s-.04.1-.06.13a.96.96 0 01-.15.22zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg>
-            </a>
-            <!-- Instagram -->
-            <a href="https://instagram.com" target="_blank" class="bg-gradient-to-br from-purple-500 via-pink-500 to-yellow-500 text-white rounded-full p-3 shadow-lg transition-transform hover:scale-110">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44c0-.795-.645-1.44-1.441-1.44z"/></svg>
-            </a>
-            <!-- Facebook -->
-            <a href="https://facebook.com" target="_blank" class="bg-blue-800 text-white rounded-full p-3 shadow-lg hover:bg-blue-900 transition-transform hover:scale-110">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg>
-            </a>
+            <a href="https://wa.me/38349889958" target="_blank" class="bg-green-500 text-white rounded-full p-3 shadow-lg hover:bg-green-600 transition-transform hover:scale-110"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M16.75 13.96c.25.13.42.2.46.28a.48.48 0 01.04.3c-.12.48-.68.9-1.12.96-.28.04-.48.03-.68-.02s-.58-.2-1.03-.38c-1.1-.48-2.2-1.34-2.94-2.4a5.33 5.33 0 01-1-1.3c-.2-.35-.38-.7-.38-1.03a1.4 1.4 0 01.48-1.02c.16-.16.35-.2.48-.2a.6.6 0 01.43.28l.2.28.6 1.35.3 1.3c.02.04.04.1.04.16a.4.4 0 010 .2c-.02.08-.04.13-.08.18-.08.1-.18.2-.3.3a.62.62 0 01-.22.1c-.08.04-.15.1-.15.2a1.35 1.35 0 00.5 1.12c.5.53 1.15.93 1.83 1.1a1.2 1.2 0 00.35.03c.1-.03.25-.13.3-.25.04-.1.04-.2.04-.25l.02-.13c0-.02 0-.04-.02-.06a.7.7 0 00-.08-.13.3.3 0 01-.06-.2.43.43 0 01.13-.3c.1-.08.2-.13.25-.13h.1a.4.4 0 01.28.13c.1.08.18.18.25.28.1.13.18.25.25.35.08.13.15.23.18.3.02.03.04.06.04.08a.27.27 0 01.02.13c0 .06-.02.1-.04.16s-.04.1-.06.13a.96.96 0 01-.15.22zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/></svg></a>
+            <a href="https://instagram.com" target="_blank" class="bg-gradient-to-br from-purple-500 via-pink-500 to-yellow-500 text-white rounded-full p-3 shadow-lg transition-transform hover:scale-110"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44c0-.795-.645-1.44-1.441-1.44z"/></svg></a>
+            <a href="https://facebook.com" target="_blank" class="bg-blue-800 text-white rounded-full p-3 shadow-lg hover:bg-blue-900 transition-transform hover:scale-110"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg></a>
         </div>
-        <button id="social-toggle" class="bg-blue-600 text-white rounded-full p-4 shadow-lg hover:bg-blue-700 transition-transform hover:scale-110">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12s-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6.002l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.368a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path></svg>
-        </button>
+        <button id="social-toggle" class="bg-blue-600 text-white rounded-full p-4 shadow-lg hover:bg-blue-700 transition-transform hover:scale-110"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12s-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6.002l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.368a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"></path></svg></button>
     </div>
 
     <script>
-        // --- TRANSLATION DATA ---
         const translations = {
             sq: {
-                pageTitle: "Klinika Dentare DentalZone",
-                navHome: "Kryefaqja",
-                navAbout: "Rreth Nesh",
-                navServices: "Shërbimet",
-                navBeforeAfter: "Para dhe Pas",
-                navTestimonials: "Dëshmitë",
-                navContact: "Kontakti",
-                heroTitle: "DentalZone",
-                heroMotto: "Buzëqeshja Jote, Prioriteti Jonë",
-                heroDescription: "Klinika jonë dentare ofron shërbime të kujdesit dentar me cilësi të lartë për të gjithë familjen tuaj. Ne përdorim teknologjinë më të fundit për të siguruar trajtimin më të mirë të mundshëm.",
-                heroBtnAppointment: "Cakto një Takim",
-                heroBtnServices: "Shërbimet Tona",
-                servicesTitle: "Shërbimet Tona",
-                servicesDescription: "Ne ofrojmë një gamë të gjerë shërbimesh dentare për të përmbushur nevojat e të gjithë pacientëve tanë.",
-                service1Title: "Kujdesi Dentar i Përgjithshëm",
-                service1Desc: "Pastrim, kontroll dhe parandalim i çrregullimeve.",
-                service2Title: "Implantet Dentare",
-                service2Desc: "Zëvendëso dhëmbët që mungojnë me implantet natyrore!",
-                service3Title: "Kurora dhe Ura Dentare",
-                service3Desc: "Forco dhëmbët e dobët ose plotëso hapësirat për një buzëqeshje perfekte!",
-                service4Title: "Zbardhje Dhëmbësh",
-                service4Desc: "Një buzëqeshje më e ndritur në vetëm një vizitë!",
-                service5Title: "Ndihmë e Shpejtë Dentare",
-                service5Desc: "Dhëmb i thyer apo dhimbje? Na kontakto menjëherë!",
-                contactTitle: "Na Kontaktoni",
-                contactDescription: "Jemi këtu për t'iu përgjigjur pyetjeve tuaja dhe për t'ju ndihmuar të caktoni një takim.",
-                formTitle: "Na Dërgoni një Mesazh",
-                formName: "Emri i Plotë",
-                formNamePlaceholder: "Emri juaj i plotë",
-                formEmail: "Email",
-                formEmailPlaceholder: "adresa@juaj.com",
-                formPhone: "Numri i Telefonit",
-                formPhonePlaceholder: "+383 49 889 958",
-                formMessage: "Mesazhi",
-                formMessagePlaceholder: "Shkruani mesazhin tuaj këtu...",
-                formButton: "Dërgo Mesazhin",
-                contactInfoTitle: "Informacioni i Kontaktit",
-                addressTitle: "Adresa",
-                addressText: "Prishtinë, Bregu I Diellit, Rr, Armend Daci",
-                phoneTitle: "Telefon",
-                hoursTitle: "Orari i Punës",
-                hoursText: "E Hënë - E Premte: 09:00 - 18:00<br>E Shtunë: 09:00 - 14:00<br>E Diel: Mbyllur",
-                footerRights: "© 2024 DentalZone. Të gjitha të drejtat e rezervuara."
+                pageTitle: "Klinika Dentare DentalZone", navHome: "Kryefaqja", navServices: "Shërbimet", navBeforeAfter: "Para dhe Pas", navTestimonials: "Dëshmitë", navContact: "Kontakti", heroTitle: "DentalZone", heroMotto: "Buzëqeshja Jote, Prioriteti Jonë", heroDescription: "Klinika jonë dentare ofron shërbime të kujdesit dentar me cilësi të lartë për të gjithë familjen tuaj. Ne përdorim teknologjinë më të fundit për të siguruar trajtimin më të mirë të mundshëm.", heroBtnAppointment: "Cakto një Takim", heroBtnServices: "Shërbimet Tona", servicesTitle: "Shërbimet Tona", servicesDescription: "Ne ofrojmë një gamë të gjerë shërbimesh dentare për të përmbushur nevojat e të gjithë pacientëve tanë.", service1Title: "Kujdesi Dentar i Përgjithshëm", service1Desc: "Pastrim, kontroll dhe parandalim i çrregullimeve.", service2Title: "Implantet Dentare", service2Desc: "Zëvendëso dhëmbët që mungojnë me implantet natyrore!", service3Title: "Kurora dhe Ura Dentare", service3Desc: "Forco dhëmbët e dobët ose plotëso hapësirat për një buzëqeshje perfekte!", service4Title: "Zbardhje Dhëmbësh", service4Desc: "Një buzëqeshje më e ndritur në vetëm një vizitë!", service5Title: "Ndihmë e Shpejtë Dentare", service5Desc: "Dhëmb i thyer apo dhimbje? Na kontakto menjëherë!", beforeAfterTitle: "Para dhe Pas", beforeAfterDescription: "Shikoni transformimet e mahnitshme të buzëqeshjeve që kemi realizuar për pacientët tanë.", testimonialsTitle: "Dëshmitë e Pacientëve", testimonialsDescription: "Dëgjoni çfarë thonë pacientët tanë për përvojën e tyre në klinikën tonë.", testimonial1Quote: `"Kam qenë gjithmonë e frikësuar nga dentisti, por ekipi në DentalZone më bëri të ndihem shumë e qetë. Trajtimi ishte pa dhimbje dhe rezultatet janë të mrekullueshme!"`, testimonial2Quote: `"Implantet dentare që mora në DentalZone kanë ndryshuar jetën time. Tani mund të ha dhe të buzëqesh me besim. Faleminderit ekipit të mrekullueshëm!"`, testimonial3Quote: `"Procedura e zbardhimit të dhëmbëve ishte e shpejtë dhe efektive. Dhëmbët e mi janë disa nuanca më të bardhë dhe ndihem shumë më e sigurt kur buzëqesh."`, contactTitle: "Na Kontaktoni", contactDescription: "Jemi këtu për t'iu përgjigjur pyetjeve tuaja dhe për t'ju ndihmuar të caktoni një takim.", formTitle: "Na Dërgoni një Mesazh", formName: "Emri i Plotë", formNamePlaceholder: "Emri juaj i plotë", formEmail: "Email", formEmailPlaceholder: "adresa@juaj.com", formPhone: "Numri i Telefonit", formPhonePlaceholder: "+383 49 889 958", formMessage: "Mesazhi", formMessagePlaceholder: "Shkruani mesazhin tuaj këtu...", formButton: "Dërgo Mesazhin", contactInfoTitle: "Informacioni i Kontaktit", addressTitle: "Adresa", addressText: "Prishtinë, Bregu I Diellit, Rr, Armend Daci", phoneTitle: "Telefon", hoursTitle: "Orari i Punës", hoursText: "E Hënë - E Premte: 09:00 - 18:00<br>E Shtunë: 09:00 - 14:00<br>E Diel: Mbyllur", footerRights: "© 2024 DentalZone. Të gjitha të drejtat e rezervuara."
             },
             en: {
-                pageTitle: "DentalZone Dental Clinic",
-                navHome: "Home",
-                navAbout: "About Us",
-                navServices: "Services",
-                navBeforeAfter: "Before & After",
-                navTestimonials: "Testimonials",
-                navContact: "Contact",
-                heroTitle: "DentalZone",
-                heroMotto: "Your Smile, Our Priority",
-                heroDescription: "Our dental clinic offers high-quality dental care services for your entire family. We use the latest technology to ensure the best possible treatment.",
-                heroBtnAppointment: "Book an Appointment",
-                heroBtnServices: "Our Services",
-                servicesTitle: "Our Services",
-                servicesDescription: "We offer a wide range of dental services to meet the needs of all our patients.",
-                service1Title: "General Dental Care",
-                service1Desc: "Cleaning, check-ups, and prevention of disorders.",
-                service2Title: "Dental Implants",
-                service2Desc: "Replace missing teeth with natural-looking implants!",
-                service3Title: "Dental Crowns and Bridges",
-                service3Desc: "Strengthen weak teeth or fill gaps for a perfect smile!",
-                service4Title: "Teeth Whitening",
-                service4Desc: "A brighter smile in just one visit!",
-                service5Title: "Dental Emergency",
-                service5Desc: "Broken tooth or pain? Contact us immediately!",
-                contactTitle: "Contact Us",
-                contactDescription: "We are here to answer your questions and help you schedule an appointment.",
-                formTitle: "Send Us a Message",
-                formName: "Full Name",
-                formNamePlaceholder: "Your full name",
-                formEmail: "Email",
-                formEmailPlaceholder: "your@email.com",
-                formPhone: "Phone Number",
-                formPhonePlaceholder: "+383 49 889 958",
-                formMessage: "Message",
-                formMessagePlaceholder: "Write your message here...",
-                formButton: "Send Message",
-                contactInfoTitle: "Contact Information",
-                addressTitle: "Address",
-                addressText: "Prishtinë, Bregu I Diellit, Rr, Armend Daci",
-                phoneTitle: "Phone",
-                hoursTitle: "Working Hours",
-                hoursText: "Monday - Friday: 09:00 - 18:00<br>Saturday: 09:00 - 14:00<br>Sunday: Closed",
-                footerRights: "© 2024 DentalZone. All rights reserved."
+                pageTitle: "DentalZone Dental Clinic", navHome: "Home", navServices: "Services", navBeforeAfter: "Before & After", navTestimonials: "Testimonials", navContact: "Contact", heroTitle: "DentalZone", heroMotto: "Your Smile, Our Priority", heroDescription: "Our dental clinic offers high-quality dental care services for your entire family. We use the latest technology to ensure the best possible treatment.", heroBtnAppointment: "Book an Appointment", heroBtnServices: "Our Services", servicesTitle: "Our Services", servicesDescription: "We offer a wide range of dental services to meet the needs of all our patients.", service1Title: "General Dental Care", service1Desc: "Cleaning, check-ups, and prevention of disorders.", service2Title: "Dental Implants", service2Desc: "Replace missing teeth with natural-looking implants!", service3Title: "Dental Crowns and Bridges", service3Desc: "Strengthen weak teeth or fill gaps for a perfect smile!", service4Title: "Teeth Whitening", service4Desc: "A brighter smile in just one visit!", service5Title: "Dental Emergency", service5Desc: "Broken tooth or pain? Contact us immediately!", beforeAfterTitle: "Before and After", beforeAfterDescription: "See the amazing smile transformations we have achieved for our patients.", testimonialsTitle: "Patient Testimonials", testimonialsDescription: "Hear what our patients have to say about their experience at our clinic.", testimonial1Quote: `"I have always been afraid of the dentist, but the team at DentalZone made me feel very calm. The treatment was painless and the results are wonderful!"`, testimonial2Quote: `"The dental implants I got at DentalZone have changed my life. I can now eat and smile with confidence. Thank you to the wonderful team!"`, testimonial3Quote: `"The teeth whitening procedure was fast and effective. My teeth are several shades whiter, and I feel much more confident when I smile."`, contactTitle: "Contact Us", contactDescription: "We are here to answer your questions and help you schedule an appointment.", formTitle: "Send Us a Message", formName: "Full Name", formNamePlaceholder: "Your full name", formEmail: "Email", formEmailPlaceholder: "your@email.com", formPhone: "Phone Number", formPhonePlaceholder: "+383 49 889 958", formMessage: "Message", formMessagePlaceholder: "Write your message here...", formButton: "Send Message", contactInfoTitle: "Contact Information", addressTitle: "Address", addressText: "Prishtinë, Bregu I Diellit, Rr, Armend Daci", phoneTitle: "Phone", hoursTitle: "Working Hours", hoursText: "Monday - Friday: 09:00 - 18:00<br>Saturday: 09:00 - 14:00<br>Sunday: Closed", footerRights: "© 2024 DentalZone. All rights reserved."
             }
         };
 
-        // --- LANGUAGE SWITCHER LOGIC ---
         function changeLanguage(lang) {
             document.documentElement.lang = lang;
+            const langData = translations[lang];
             document.querySelectorAll('[data-translate]').forEach(el => {
                 const key = el.dataset.translate;
-                el.innerHTML = translations[lang][key];
+                if (langData[key]) el.innerHTML = langData[key];
             });
             document.querySelectorAll('[data-translate-placeholder]').forEach(el => {
                 const key = el.dataset.translatePlaceholder;
-                el.placeholder = translations[lang][key];
+                if (langData[key]) el.placeholder = langData[key];
             });
         }
 
-        // --- UI SCRIPT ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Navbar scroll effect
             const navbar = document.getElementById('navbar');
-            window.onscroll = () => {
-                if (window.scrollY > 50) {
-                    navbar.classList.add('py-2');
-                    navbar.classList.remove('py-3');
-                } else {
-                    navbar.classList.add('py-3');
-                    navbar.classList.remove('py-2');
-                }
-            };
-
-            // Mobile menu toggle
+            window.onscroll = () => { if (window.scrollY > 50) navbar.classList.add('py-2','shadow-lg'), navbar.classList.remove('py-3'); else navbar.classList.add('py-3'), navbar.classList.remove('py-2','shadow-lg'); };
             const menuToggle = document.getElementById('menu-toggle');
             const mobileMenu = document.getElementById('mobile-menu');
-            menuToggle.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
+            menuToggle.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            document.querySelectorAll('#mobile-menu a').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
 
-            // Floating Toggles
             const langToggleBtn = document.getElementById('language-toggle');
             const langOptions = document.getElementById('language-options');
             const socialToggleBtn = document.getElementById('social-toggle');
             const socialOptions = document.getElementById('social-options');
             
-            langToggleBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                langOptions.classList.toggle('hidden');
-                socialOptions.classList.add('hidden'); // Close other toggle
-            });
+            langToggleBtn.addEventListener('click', e => { e.stopPropagation(); langOptions.classList.toggle('hidden'); socialOptions.classList.add('hidden'); });
+            socialToggleBtn.addEventListener('click', e => { e.stopPropagation(); socialOptions.classList.toggle('hidden'); langOptions.classList.add('hidden'); });
+            window.addEventListener('click', () => { langOptions.classList.add('hidden'); socialOptions.classList.add('hidden'); });
 
-            socialToggleBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                socialOptions.classList.toggle('hidden');
-                langOptions.classList.add('hidden'); // Close other toggle
-            });
-            
-            // Close toggles when clicking anywhere else
-            window.addEventListener('click', () => {
-                langOptions.classList.add('hidden');
-                socialOptions.classList.add('hidden');
-            });
+            function initSlider(sliderId) {
+                const slider = document.getElementById(sliderId);
+                if (!slider) return;
+                const container = slider.parentElement;
+                const beforeImage = container.querySelector('.before-image');
+                let isDragging = false;
+                
+                const startDrag = (e) => { isDragging = true; e.preventDefault(); };
+                const stopDrag = () => isDragging = false;
+                const onDrag = (e) => {
+                    if (!isDragging) return;
+                    const rect = container.getBoundingClientRect();
+                    let x = (e.clientX || e.touches[0].clientX) - rect.left;
+                    if (x < 0) x = 0; if (x > rect.width) x = rect.width;
+                    let percent = (x / rect.width) * 100;
+                    slider.style.left = `${percent}%`;
+                    beforeImage.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+                };
+                
+                slider.addEventListener('mousedown', startDrag);
+                slider.addEventListener('touchstart', startDrag);
+                window.addEventListener('mouseup', stopDrag);
+                window.addEventListener('touchend', stopDrag);
+                window.addEventListener('mousemove', onDrag);
+                window.addEventListener('touchmove', onDrag);
+            }
+
+            initSlider('slider1');
+            initSlider('slider2');
         });
     </script>
 </body>
