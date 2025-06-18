@@ -28,10 +28,12 @@
 <body>
     <!-- Navbar -->
     <nav class="fixed w-full bg-white shadow-md z-40 transition-all duration-300" id="navbar">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+        <div class="container mx-auto px-4 py-2 flex justify-between items-center">
             <div class="flex items-center">
-                <svg class="w-10 h-10 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8 S16.41,20,12,20z M16.59,7.58L10,14.17l-2.59-2.58L6,13l4,4l8-8L16.59,7.58z"></path></svg>
-                <span class="ml-2 text-xl font-bold text-gray-800">DentalZone</span>
+                <!-- LOGO IMAGE UPDATED HERE -->
+                <a href="#hero">
+                    <img src="https://i.imgur.com/vv6qfcn.jpeg" alt="DentalZone Logo" class="h-16 w-auto">
+                </a>
             </div>
             <div class="hidden md:flex space-x-8">
                 <a href="#hero" class="text-gray-600 hover:text-blue-600 transition-colors" data-translate="navHome">Kryefaqja</a>
@@ -56,7 +58,7 @@
     </nav>
     
     <!-- Hero Section -->
-    <section id="hero" class="relative min-h-screen flex items-center bg-gradient-to-br from-blue-50 to-blue-100 overflow-hidden">
+    <section id="hero" class="relative min-h-screen flex items-center bg-gradient-to-br from-blue-50 to-blue-100 overflow-hidden pt-24">
         <div class="absolute inset-0 pointer-events-none z-10">
             <svg class="absolute top-20 left-10 w-12 h-12 text-blue-200 floating" fill="currentColor" viewBox="0 0 24 24"><path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8 S16.41,20,12,20z M16.59,7.58L10,14.17l-2.59-2.58L6,13l4,4l8-8L16.59,7.58z"></path></svg>
             <svg class="absolute top-40 right-20 w-8 h-8 text-blue-300 floating floating-delay-1" fill="currentColor" viewBox="0 0 24 24"><path d="M19,4H5C3.9,4,3,4.9,3,6v12c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V6C21,4.9,20.1,4,19,4z M19,18H5V8h14V18z"></path><path d="M12,9c-1.66,0-3,1.34-3,3s1.34,3,3,3s3-1.34,3-3S13.66,9,12,9z"></path></svg>
@@ -208,7 +210,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const navbar = document.getElementById('navbar'); window.onscroll = () => { if (window.scrollY > 50) { navbar.classList.add('py-2','shadow-lg'); navbar.classList.remove('py-3'); } else { navbar.classList.add('py-3'); navbar.classList.remove('py-2','shadow-lg'); } };
             const menuToggle = document.getElementById('menu-toggle'); const mobileMenu = document.getElementById('mobile-menu'); menuToggle.addEventListener('click', () => mobileMenu.classList.toggle('hidden')); document.querySelectorAll('#mobile-menu a').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
 
             const langToggleBtn = document.getElementById('language-toggle-btn'); const langOptions = document.getElementById('language-options');
